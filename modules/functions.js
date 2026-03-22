@@ -4,4 +4,6 @@
 
 "include functions/setfly"
 
+"include functions/yiyan"
+
 /* Functions Include End */

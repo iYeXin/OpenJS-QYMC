@@ -93,24 +93,24 @@ const fs = (function () {
          */
         writeFileSync: function (path, data, options) {
             const p = getPath(path);
+            // 解析选项
             let encoding = 'utf8';
             let flag = 'w';
             if (options) {
-                if (typeof data === 'string' || data instanceof java.lang.String) {
-                    bytes = new java.lang.String(data).getBytes(charset);
-                } else if (data instanceof java.lang.Object && data.getClass().isArray() && data.getClass().getComponentType() === java.lang.Byte.TYPE) {
-                    bytes = data; // 已经是 byte[]
+                if (typeof options === 'string') {
+                    encoding = options;
                 } else {
-                    throw new Error('Data must be a string or byte array');
+                    if (options.encoding) encoding = options.encoding;
+                    if (options.flag) flag = options.flag;
                 }
             }
             const charset = getCharset(encoding);
+            // 将 data 转换为字节数组
             let bytes;
-            if (typeof data === 'string') {
+            if (typeof data === 'string' || data instanceof java.lang.String) {
                 bytes = new java.lang.String(data).getBytes(charset);
-            } else if (data instanceof java.lang.Object) {
-                // 假设是 Java 的 byte[]，直接使用
-                bytes = data;
+            } else if (data instanceof java.lang.Object && data.getClass().isArray() && data.getClass().getComponentType() === java.lang.Byte.TYPE) {
+                bytes = data; // 已经是 Java byte[]
             } else {
                 throw new Error('Data must be a string or byte array');
             }

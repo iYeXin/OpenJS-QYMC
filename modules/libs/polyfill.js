@@ -52,7 +52,7 @@ const _timeout = (function () {
     bindEvent('unload', () => {
         const keys = Object.keys(timers);
         for (let i = 0; i < keys.length; i++) {
-            task.cancel(timers[keys[i]]);
+            task.cancel(keys[i]);
         }
     });
     return {
